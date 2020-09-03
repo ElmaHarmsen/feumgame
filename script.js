@@ -17,8 +17,11 @@ var power; //Items to be collected
 var enemy; //To be avoided
 var description;
 var timer;
-var score;
+var scoreText;
+var score = 0;
+var countDown;
 var cursors;
+var audioBackground;
 var UP = 0;
 var DOWN = 1;
 var LEFT = 2;
@@ -28,34 +31,34 @@ function preload() {
   this.load.image('power', 'assets/power.svg');
   this.load.image('enemy', 'assets/enemy.svg')
   this.load.image('player', 'assets/player.svg');
+  this.load.audio('background-music', 'assets/bass.mp3'); //OGG or MP3
 }
 
 function create() {
   this.add.image(400, 300, 'enemy');
 
-  var style = { font: "25px", fill: "#fff"}
-  description = this.add.text(10, 10, "Collect the power, avoid the mute", style); 
-  timer = this.add.text(10, 40, "Time Left: 00:00", style); 
-  score = this.add.text(10, 70, "Score: 0", style); 
+  var style = { font: "25px", fill: "#fff", textalign: "center"}
+  timer = this.add.text(200, 10, "Timer: 00:00", style); 
+  scoreText = this.add.text(390, 10, "| Score: " + score + "%", style); 
 
   var Power = new Phaser.Class({
     Extends: Phaser.GameObjects.Image,
     initialize:
 
-    function Power (scene, x, y) {
+    function Power (scene, x, y) { //Function for the items to be collected
       Phaser.GameObjects.Image.call(this, scene)
 
       this.setTexture('power');
       this.setPosition(x * 20, y * 20);
       this.setOrigin(0);
 
-      this.total = 0;
+      this.total = 0; //By default the total collected items is nothing (0).
 
       scene.children.add(this);
     },
 
     eat: function() {
-      this.total++;
+      this.total++; //+ 1 with every power eaten
 
       var x = Phaser.Math.Between(0, 39);
       var y = Phaser.Math.Between(0, 29);
@@ -83,7 +86,7 @@ function create() {
 
       this.tail = new Phaser.Geom.Point(x, y);
 
-      this.heading = RIGHT;
+      this.heading = RIGHT; //By default the player starts with going right
       this.direction = RIGHT;
     },
 
@@ -149,10 +152,16 @@ function create() {
       newPart.setOrigin(0);
     },
 
+    gameScore: function() {
+      score += 1;
+      scoreText.text = "| Score: " + score + "%";
+    },
+
     eatFood: function(power) {
       if (this.head.x === power.x && this.head.y === power.y) {
         this.grow();
         power.eat();
+        this.gameScore();
         if (this.speed > 0 && power.total % 5 === 0) { // && power.total % 5 === 0
           this.speed -= 25; //here we subtract right operand value from left operand value and assign the result to the left operand. 
           //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
@@ -165,11 +174,18 @@ function create() {
     }
   });
 
-  power = new Power(this, 5, 6);
+  power = new Power(this, 30, 8);
 
   player = new Player(this, 8, 8);
 
   cursors = this.input.keyboard.createCursorKeys();
+
+  this.audioBackground = this.sound.add('background-music');
+  var musicBackgroundConfig = {
+    loop: true,
+    delay: 2.1 //seconds, the music starts when you hit the first visible power item
+  }
+  this.audioBackground.play(musicBackgroundConfig);
 }
 
 function update(time, delta) {
