@@ -2,7 +2,7 @@ var config = {
   type: Phaser.AUTO,
   width: 800, 
   height: 600, 
-  backgroundColor: "#012235",
+  backgroundColor: "#222222", //#012235
   physics: {
     default: 'arcade'
   },
@@ -25,6 +25,7 @@ var score = 0;
 var countDown;
 var cursors;
 var audioBackground;
+var logo;
 var UP = 0;
 var DOWN = 1;
 var LEFT = 2;
@@ -34,13 +35,15 @@ function preload() {
   this.load.image('power', 'assets/power.svg');
   this.load.image('enemy', 'assets/enemy.svg')
   this.load.image('player', 'assets/player.svg');
-  this.load.audio('background-music', 'assets/bass.mp3'); //OGG or MP3
+  this.load.image('logo', 'assets/logo.png');
+  this.load.audio('background-music', 'assets/audio-background.mp3'); //OGG or MP3
 }
 
 function create() {
-  // enemy = this.add.image(400, 300, 'enemy'); 
+  logo = this.add.image(70, 25, 'logo');
+  logo.setScale(0.2);
 
-  var style = { font: "25px", fill: "#fff", textalign: "center"}
+  var style = { font: "25px", fill: "#fff"}
   timer = this.add.text(200, 10, "Timer: 00:00", style); 
   scoreText = this.add.text(390, 10, "| Score: " + score + "%", style); 
 
@@ -79,7 +82,6 @@ function create() {
 
       this.setTexture('enemy');
       this.setPosition(x * 20, y * 20);
-      this.setOrigin(0);
 
       scene.children.add(this);
     }
@@ -205,7 +207,7 @@ function create() {
     }
   });
 
-  enemy = new Enemy(this, 9, 9);
+  enemy = new Enemy(this, 20, 15);
 
   power = new Power(this, 30, 8);
 
