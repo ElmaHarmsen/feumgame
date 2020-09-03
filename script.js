@@ -1,13 +1,16 @@
 var config = {
   type: Phaser.AUTO,
-  width: 800, //640
-  height: 600, //480
+  width: 800, 
+  height: 600, 
   backgroundColor: "#012235",
+  physics: {
+    default: 'arcade'
+  },
   scene: {
       preload: preload,
       create: create,
       update: update
-  }
+  },
 };
 
 var game = new Phaser.Game(config);
@@ -35,7 +38,7 @@ function preload() {
 }
 
 function create() {
-  this.add.image(400, 300, 'enemy');
+  // enemy = this.add.image(400, 300, 'enemy'); 
 
   var style = { font: "25px", fill: "#fff", textalign: "center"}
   timer = this.add.text(200, 10, "Timer: 00:00", style); 
@@ -64,6 +67,21 @@ function create() {
       var y = Phaser.Math.Between(0, 29);
 
       this.setPosition(x * 20, y * 20);
+    }
+  });
+
+  var Enemy = new Phaser.Class({
+    Extends: Phaser.GameObjects.Image,
+    initialize:
+
+    function Enemy (scene, x, y) {
+      Phaser.GameObjects.Image.call(this, scene)
+
+      this.setTexture('enemy');
+      this.setPosition(x * 20, y * 20);
+      this.setOrigin(0);
+
+      scene.children.add(this);
     }
   });
 
@@ -171,8 +189,23 @@ function create() {
       else {
         return false;
       }
+    },
+
+    hitEnemy: function(enemy) {
+      if (this.head.x === enemy.x && this.head.y === enemy.y) {
+        console.log("work you stupid");
+        player.alive = false;
+        return true;
+      }
+    },
+
+    hitMute: function() {
+        this.hitEnemy();
+        console.log("work");
     }
   });
+
+  enemy = new Enemy(this, 9, 9);
 
   power = new Power(this, 30, 8);
 
@@ -185,7 +218,8 @@ function create() {
     loop: true,
     delay: 2.1 //seconds, the music starts when you hit the first visible power item
   }
-  this.audioBackground.play(musicBackgroundConfig);
+  this.audioBackground.play(musicBackgroundConfig); 
+  //Next: play sound when first item is eaten
 }
 
 function update(time, delta) {
@@ -206,6 +240,7 @@ function update(time, delta) {
   }
   if (player.update(time)) {
     player.eatFood(power);
+    player.hitEnemy(enemy);
   }
 }
 
