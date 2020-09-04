@@ -26,6 +26,7 @@ var score = 0;
 var countDown;
 var cursors;
 var audioBackground;
+var audioEat;
 var logo;
 var UP = 0;
 var DOWN = 1;
@@ -38,6 +39,7 @@ function preload() {
   this.load.image('player', 'assets/player.svg');
   this.load.image('logo', 'assets/logo.png');
   this.load.audio('background-music', 'assets/bass.mp3'); //OGG or MP3
+  this.load.audio('eat-sound', 'assets/p-ping.mp3');
 }
 
 function create() {
@@ -47,7 +49,7 @@ function create() {
   var style = { font: "25px", fill: "#fff"}
   scoreText = this.add.text(390, 12.5, "| Score: " + score + "%", style); 
 
-  this.initialTime = 180; //180 = 3 minutes
+  this.initialTime = 10; //180 = 3 minutes
   timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
   timedEvent = this.time.addEvent({delay: 1000, callback: timeEvent, callbackScope: this, loop: true});
 
@@ -176,6 +178,11 @@ function create() {
       newPart.setOrigin(0);
     },
 
+    // eatSound: function() {
+    //   audioEat = this.sound.add('eat-sound');
+    //   audioEat.play();
+    // },
+
     gameScore: function() {
       score += 1;
       scoreText.text = "| Score: " + score + "%";
@@ -185,6 +192,7 @@ function create() {
       if (this.head.x === power.x && this.head.y === power.y) {
         this.grow();
         power.eat();
+        // this.eatSound();
         this.gameScore();
         if (this.speed > 0 && power.total % 5 === 0) { // && power.total % 5 === 0
           this.speed -= 25; //here we subtract right operand value from left operand value and assign the result to the left operand. 
@@ -199,7 +207,6 @@ function create() {
 
     hitEnemy: function(enemy) {
       if (this.head.x === enemy.x && this.head.y === enemy.y) {
-        console.log("work you stupid");
         player.alive = false;
         return true;
       }
@@ -207,7 +214,6 @@ function create() {
 
     hitMute: function() {
         this.hitEnemy();
-        console.log("work");
     }
   });
 
@@ -226,6 +232,9 @@ function create() {
   }
   this.audioBackground.play(musicBackgroundConfig); 
   //Next: play sound when first item is eaten
+
+  this.audioEat = this.sound.add('eat-sound');
+  this.audioEat.play();
 }
 
 function timeFormat(seconds) {
@@ -241,12 +250,13 @@ function timeEvent() {
     timerText.setText('Timer: ' + timeFormat(this.initialTime)); //and we set the timer text  
   }
   else {
-    console.log("you ran out of time") //Otherwise we console.log some message for now, we change this later to an acion
+    player.alive = false; //The player can't move anymore
   }
 }
 
 function update(time) {
   if (!player.alive) {
+    this.audioBackground.stop(); //When the player is not alive (because the timer stopped or you hit mute) the music stops
     return;
   }
   if (cursors.left.isDown) {
