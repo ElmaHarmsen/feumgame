@@ -19,6 +19,7 @@ var player; //You
 var power; //Items to be collected
 var enemy; //To be avoided
 var description;
+var timerText;
 var timer;
 var scoreText;
 var score = 0;
@@ -36,7 +37,7 @@ function preload() {
   this.load.image('enemy', 'assets/enemy.svg')
   this.load.image('player', 'assets/player.svg');
   this.load.image('logo', 'assets/logo.png');
-  this.load.audio('background-music', 'assets/audio-background.mp3'); //OGG or MP3
+  this.load.audio('background-music', 'assets/bass.mp3'); //OGG or MP3
 }
 
 function create() {
@@ -44,8 +45,11 @@ function create() {
   logo.setScale(0.2);
 
   var style = { font: "25px", fill: "#fff"}
-  timer = this.add.text(200, 10, "Timer: 00:00", style); 
-  scoreText = this.add.text(390, 10, "| Score: " + score + "%", style); 
+  scoreText = this.add.text(390, 12.5, "| Score: " + score + "%", style); 
+
+  this.initialTime = 180; //180 = 3 minutes
+  timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
+  timedEvent = this.time.addEvent({delay: 1000, callback: timeEvent, callbackScope: this, loop: true});
 
   var Power = new Phaser.Class({
     Extends: Phaser.GameObjects.Image,
@@ -224,7 +228,24 @@ function create() {
   //Next: play sound when first item is eaten
 }
 
-function update(time, delta) {
+function timeFormat(seconds) {
+  var minutes = Math.floor(seconds/60); //The minutes
+  var seconds = seconds%60; //The seconds
+  seconds = seconds.toString().padStart(2, '0'); //Adds another 0 to the seconds
+  return `${minutes}:${seconds}`; //The formats is returns as this
+}
+
+function timeEvent() {
+  if (this.initialTime != 0) { //We check if the time is not 0, if true we
+    this.initialTime -= 1; //decrease one second
+    timerText.setText('Timer: ' + timeFormat(this.initialTime)); //and we set the timer text  
+  }
+  else {
+    console.log("you ran out of time") //Otherwise we console.log some message for now, we change this later to an acion
+  }
+}
+
+function update(time) {
   if (!player.alive) {
     return;
   }
