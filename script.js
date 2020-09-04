@@ -87,7 +87,9 @@ function create() {
       Phaser.GameObjects.Image.call(this, scene)
 
       this.setTexture('enemy');
-      this.setPosition(x * 20, y * 20);
+      this.setPosition(x, y);
+
+      // this.input.hitArea.setTo(50, 50, 50, 50);
 
       scene.children.add(this);
     }
@@ -217,7 +219,8 @@ function create() {
     }
   });
 
-  enemy = new Enemy(this, 20, 15);
+  enemy = new Enemy(this, 400, 300);
+  // enemy.setInteractive({hitArea: new Phaser.GameObjects.Rectangle(400, 300, 50, 50, 0xff0000)});
 
   power = new Power(this, 30, 8);
 
