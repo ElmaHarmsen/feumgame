@@ -49,7 +49,9 @@ function create() {
   var style = { font: "25px", fill: "#fff"}
   scoreText = this.add.text(390, 12.5, "| Score: " + score + "%", style); 
 
-  this.initialTime = 10; //180 = 3 minutes
+  var audioEat = this.sound.add('eat-sound');
+
+  this.initialTime = 180; //180 = 3 minutes
   timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
   timedEvent = this.time.addEvent({delay: 1000, callback: timeEvent, callbackScope: this, loop: true});
 
@@ -76,6 +78,8 @@ function create() {
       var y = Phaser.Math.Between(0, 29);
 
       this.setPosition(x * 20, y * 20);
+
+      audioEat.play();
     }
   });
 
@@ -182,7 +186,7 @@ function create() {
 
     // eatSound: function() {
     //   audioEat = this.sound.add('eat-sound');
-    //   audioEat.play();
+    //   this.audioEat.play();
     // },
 
     gameScore: function() {
@@ -236,8 +240,8 @@ function create() {
   this.audioBackground.play(musicBackgroundConfig); 
   //Next: play sound when first item is eaten
 
-  this.audioEat = this.sound.add('eat-sound');
-  this.audioEat.play();
+  // this.audioEat = this.sound.add('eat-sound');
+  // this.audioEat.play();
 }
 
 function timeFormat(seconds) {
