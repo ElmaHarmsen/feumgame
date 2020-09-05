@@ -69,13 +69,15 @@ function create() {
     function Power (scene, x, y) { //Function for the items to be collected
       Phaser.GameObjects.Image.call(this, scene)
 
-      this.setTexture('power');
-      this.setPosition(x * 20, y * 20);
-      this.setOrigin(0);
-
-      this.total = 0; //By default the total collected items is nothing (0).
-
-      scene.children.add(this);
+      setTimeout(() => {
+        this.setTexture('power');
+        this.setPosition(x * 20, y * 20);
+        this.setOrigin(0);
+  
+        this.total = 0; //By default the total collected items is nothing (0).
+  
+        scene.children.add(this);
+      }, 3000);
     },
 
     eat: function() {
@@ -97,12 +99,17 @@ function create() {
     function Enemy (scene, x, y) {
       Phaser.GameObjects.Image.call(this, scene)
 
-      this.setTexture('enemy');
-      this.setPosition(x, y);
+      setTimeout(() => {
+        this.setTexture('enemy');
+        var x = Phaser.Math.Between(0, 800);
+        var y = Phaser.Math.Between(0, 600);
+        this.setPosition(x, y);
+        this.setOrigin(0);
 
-      // this.input.hitArea.setTo(50, 50, 50, 50);
+        // this.input.hitArea.setTo(50, 50, 50, 50);
 
-      scene.children.add(this);
+        scene.children.add(this);
+      }, 3000);
     }
   });
 
@@ -116,7 +123,7 @@ function create() {
 
       this.head = this.body.create(x * 20, y * 20, 'player');
       this.head.setOrigin(0);
-
+      
       this.alive = true;
 
       this.speed = 100; //a lower number stands for faster speed
@@ -204,6 +211,8 @@ function create() {
         if (this.speed > 0 && power.total % 5 === 0) { // && power.total % 5 === 0
           this.speed -= 20; //here we subtract right operand value from left operand value and assign the result to the left operand. 
           //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
+
+          //Increase the amount of enemies
         }
         return true;
       }
@@ -220,16 +229,17 @@ function create() {
     },
 
     hitMute: function() {
-        this.hitEnemy();
+      this.hitEnemy();
     }
   });
 
-  enemy = new Enemy(this, 150, 250);
+  enemy = new Enemy(this, 8, 22);
   // enemy.setInteractive({hitArea: new Phaser.GameObjects.Rectangle(400, 300, 50, 50, 0xff0000)});
+  var Enemy = Phaser.Math.Between(800, 600);
 
-  power = new Power(this, 30, 20);
+  power = new Power(this, 30, 15);
 
-  player = new Player(this, 8, 8);
+  player = new Player(this, 3, 5);
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -248,15 +258,15 @@ function countDownFormat(seconds) {
 }
 
 function countEvent() {
-    if (this.initialCountdown != 1) { //We check if the time is not 1, if true we
-      this.initialCountdown -= 1; //decrease one second
-      countDownText.setText(+ countDownFormat(this.initialCountdown)); //and we set the timer text  
-      // player.alive = false; //The player can't move anymore
-    }
-    else {
-      countDownText.setText(); //We remove the countdown
-      // player.alive = true;
-    }
+  if (this.initialCountdown != 1) { //We check if the time is not 1, if true we
+    this.initialCountdown -= 1; //decrease one second
+    countDownText.setText(+ countDownFormat(this.initialCountdown)); //and we set the timer text  
+    // player.alive = false; //The player can't move anymore
+  }
+  else {
+    countDownText.setText(); //We remove the countdown
+    // player.alive = true;
+  }
 }
 
 function timeFormat(seconds) {
