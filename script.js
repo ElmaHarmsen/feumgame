@@ -47,8 +47,8 @@ function create() {
   logo = this.add.image(70, 25, 'logo');
   logo.setScale(0.2);
 
-  var style = {font: "25px", fill: "#fff"}
-  var countDownStyle = {font: "300px", fill: "#be03fd", backgroundColor: "#222"}
+  var style = {font: "25px sourcecode", fill: "#fff"}
+  var countDownStyle = {font: "300px sourcecode", fill: "#be03fd", backgroundColor: "#222"}
 
   scoreText = this.add.text(390, 12.5, "| Score: " + score + "%", style); 
 
@@ -101,8 +101,8 @@ function create() {
 
       setTimeout(() => {
         this.setTexture('enemy');
-        var x = Phaser.Math.Between(0, 800);
-        var y = Phaser.Math.Between(0, 600);
+        var x = Phaser.Math.Between(10, 790);
+        var y = Phaser.Math.Between(10, 590);
         this.setPosition(x, y);
         this.setOrigin(0);
 
@@ -235,7 +235,6 @@ function create() {
 
   enemy = new Enemy(this, 8, 22);
   // enemy.setInteractive({hitArea: new Phaser.GameObjects.Rectangle(400, 300, 50, 50, 0xff0000)});
-  var Enemy = Phaser.Math.Between(800, 600);
 
   power = new Power(this, 30, 15);
 

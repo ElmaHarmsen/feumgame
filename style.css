@@ -1,8 +1,14 @@
+@font-face {
+  font-family: "sourcecode";
+  src: url("assets/SourceCodePro-Regular.ttf");
+}
 body {
   text-align: center;
   margin: 1rem;
+  font-family: "sourcecode";
 }
 h1 {
+  font-family: "sourcecode";
   font-size: 25px;
   padding: 1rem 0rem 2rem 0rem;
 }
