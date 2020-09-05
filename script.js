@@ -248,15 +248,15 @@ function countDownFormat(seconds) {
 }
 
 function countEvent() {
-  if (this.initialCountdown != 1) { //We check if the time is not 0, if true we
-    this.initialCountdown -= 1; //decrease one second
-    countDownText.setText(+ countDownFormat(this.initialCountdown)); //and we set the timer text  
-    // player.alive = false; //The player can't move anymore
-  }
-  else {
-    countDownText.setText(); //We remove the countdown
-    // player.alive = true;
-  }
+    if (this.initialCountdown != 1) { //We check if the time is not 1, if true we
+      this.initialCountdown -= 1; //decrease one second
+      countDownText.setText(+ countDownFormat(this.initialCountdown)); //and we set the timer text  
+      // player.alive = false; //The player can't move anymore
+    }
+    else {
+      countDownText.setText(); //We remove the countdown
+      // player.alive = true;
+    }
 }
 
 function timeFormat(seconds) {
@@ -267,13 +267,15 @@ function timeFormat(seconds) {
 }
 
 function timeEvent() {
-  if (this.initialTime != 0) { //We check if the time is not 0, if true we
-    this.initialTime -= 1; //decrease one second
-    timerText.setText('Timer: ' + timeFormat(this.initialTime)); //and we set the timer text  
-  }
-  else {
-    player.alive = false; //The player can't move anymore
-  }
+  setTimeout(() => {
+    if (this.initialTime != 0) { //We check if the time is not 0, if true we
+      this.initialTime -= 1; //decrease one second
+      timerText.setText('Timer: ' + timeFormat(this.initialTime)); //and we set the timer text  
+    }
+    else {
+      player.alive = false; //The player can't move anymore
+    }
+  }, 2000);
 }
 
 function update(time) {
