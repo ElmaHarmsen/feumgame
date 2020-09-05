@@ -23,6 +23,7 @@ var timerText;
 var timer;
 var scoreText;
 var score = 0;
+var countDownText;
 var countDown;
 var cursors;
 var audioBackground;
@@ -46,10 +47,16 @@ function create() {
   logo = this.add.image(70, 25, 'logo');
   logo.setScale(0.2);
 
-  var style = { font: "25px", fill: "#fff"}
+  var style = {font: "25px", fill: "#fff"}
+  var countDownStyle = {font: "300px", fill: "#be03fd", backgroundColor: "#222"}
+
   scoreText = this.add.text(390, 12.5, "| Score: " + score + "%", style); 
 
   var audioEat = this.sound.add('eat-sound');
+
+  this.initialCountdown = 3;
+  countDownText = this.add.text(310, 150, + countDownFormat(this.initialCountdown), countDownStyle);
+  countDownEvent = this.time.addEvent({delay: 1000, callback: countEvent, callbackScope: this, loop: true});
 
   this.initialTime = 180; //180 = 3 minutes
   timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
@@ -74,12 +81,12 @@ function create() {
     eat: function() {
       this.total++; //+ 1 with every power eaten
 
-      var x = Phaser.Math.Between(0, 39);
-      var y = Phaser.Math.Between(0, 29);
+      var x = Phaser.Math.Between(0, 29);
+      var y = Phaser.Math.Between(0, 15);
 
       this.setPosition(x * 20, y * 20);
 
-      audioEat.play();
+      audioEat.play(); //Plays the sound of eating
     }
   });
 
@@ -180,14 +187,8 @@ function create() {
  
     grow: function() {
       var newPart = this.body.create(this.tail.x, this.tail.y, 'player');
-
       newPart.setOrigin(0);
     },
-
-    // eatSound: function() {
-    //   audioEat = this.sound.add('eat-sound');
-    //   this.audioEat.play();
-    // },
 
     gameScore: function() {
       score += 1;
@@ -201,7 +202,7 @@ function create() {
         // this.eatSound();
         this.gameScore();
         if (this.speed > 0 && power.total % 5 === 0) { // && power.total % 5 === 0
-          this.speed -= 25; //here we subtract right operand value from left operand value and assign the result to the left operand. 
+          this.speed -= 20; //here we subtract right operand value from left operand value and assign the result to the left operand. 
           //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
         }
         return true;
@@ -223,10 +224,10 @@ function create() {
     }
   });
 
-  enemy = new Enemy(this, 400, 300);
+  enemy = new Enemy(this, 150, 250);
   // enemy.setInteractive({hitArea: new Phaser.GameObjects.Rectangle(400, 300, 50, 50, 0xff0000)});
 
-  power = new Power(this, 30, 8);
+  power = new Power(this, 30, 20);
 
   player = new Player(this, 8, 8);
 
@@ -235,13 +236,27 @@ function create() {
   this.audioBackground = this.sound.add('background-music');
   var musicBackgroundConfig = {
     loop: true,
-    delay: 2.1 //seconds, the music starts when you hit the first visible power item
+    delay: 3 //seconds, the music starts when the countdown of 3 seconds ends
   }
   this.audioBackground.play(musicBackgroundConfig); 
   //Next: play sound when first item is eaten
+}
 
-  // this.audioEat = this.sound.add('eat-sound');
-  // this.audioEat.play();
+function countDownFormat(seconds) {
+  var seconds = seconds%60;
+  return `${seconds}`;
+}
+
+function countEvent() {
+  if (this.initialCountdown != 1) { //We check if the time is not 0, if true we
+    this.initialCountdown -= 1; //decrease one second
+    countDownText.setText(+ countDownFormat(this.initialCountdown)); //and we set the timer text  
+    // player.alive = false; //The player can't move anymore
+  }
+  else {
+    countDownText.setText(); //We remove the countdown
+    // player.alive = true;
+  }
 }
 
 function timeFormat(seconds) {
