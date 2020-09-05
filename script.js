@@ -101,10 +101,9 @@ function create() {
 
       setTimeout(() => {
         this.setTexture('enemy');
-        var x = Phaser.Math.Between(10, 790);
-        var y = Phaser.Math.Between(10, 590);
-        this.setPosition(x, y);
-        this.setOrigin(0);
+        var x = Phaser.Math.Between(1, 39);
+        var y = Phaser.Math.Between(1, 29);
+        this.setPosition(x * 20, y * 20); //to keep the hitting of the enemy work, don't touch this line
 
         // this.input.hitArea.setTo(50, 50, 50, 50);
 
