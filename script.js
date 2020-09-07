@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           this.setTexture('power');
-          var x = Phaser.Math.Between(1, 39);
-          var y = Phaser.Math.Between(1, 29);
+          var x = Phaser.Math.Between(1, 35);
+          var y = Phaser.Math.Between(1, 25);
           this.setPosition(x * 20, y * 20);
           this.setOrigin(0);
     
@@ -90,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
       eat: function() {
         this.total++; //+ 1 with every power eaten
 
-        var x = Phaser.Math.Between(1, 39);
-        var y = Phaser.Math.Between(1, 29);
+        var x = Phaser.Math.Between(1, 35);
+        var y = Phaser.Math.Between(1, 25);
 
         this.setPosition(x * 20, y * 20);
 
@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           this.setTexture('enemy');
-          var x = Phaser.Math.Between(1, 39);
-          var y = Phaser.Math.Between(1, 29);
+          var x = Phaser.Math.Between(1, 35);
+          var y = Phaser.Math.Between(1, 25);
           this.setPosition(x * 20, y * 20); //to keep the hitting of the enemy work, don't touch this line
 
           // this.input.hitArea.setTo(50, 50, 50, 50);
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // this.eatSound();
           this.gameScore();
           if (this.speed > 0 && power.total % 5 === 0) { // && power.total % 5 === 0
-            this.speed -= 20; //here we subtract right operand value from left operand value and assign the result to the left operand. 
+            this.speed -= 10; //here we subtract right operand value from left operand value and assign the result to the left operand. 
             //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
 
             //Increase the amount of enemies
