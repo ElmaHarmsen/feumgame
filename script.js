@@ -19,20 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var game = new Phaser.Game(config);
   document.querySelector(".prescreen-game").style.display = "none";	
+  document.querySelector(".endscreen-game").style.display = "none";
 
   var player; //You
   var power; //Items to be collected
   var enemy; //To be avoided
-  var description;
   var timerText;
-  var timer;
   var scoreText;
   var score = 0;
   var countDownText;
-  var countDown;
+  var endScoreText = [];
   var cursors;
-  var audioBackground;
-  var audioEat;
   var logo;
   var UP = 0;
   var DOWN = 1;
@@ -66,6 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
     this.initialTime = 180; //180 = 3 minutes
     timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
     timedEvent = this.time.addEvent({delay: 1000, callback: timeEvent, callbackScope: this, loop: true});
+
+    // endScoreText = this.add.text(310, 150, "Your score is " + score + "%", style);
 
     var Power = new Phaser.Class({
       Extends: Phaser.GameObjects.Image,
@@ -254,7 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
       delay: 3 //seconds, the music starts when the countdown of 3 seconds ends
     }
     this.audioBackground.play(musicBackgroundConfig); 
-    //Next: play sound when first item is eaten
   }
 
   function countDownFormat(seconds) {
@@ -270,7 +268,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     else {
       countDownText.setText(); //We remove the countdown
-      // player.alive = true;
     }
   }
 
@@ -293,9 +290,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   }
 
+  function showEndScreen() {
+    setTimeout(() => {
+      document.querySelector(".endscreen-game").style.display = "block";
+      document.querySelector(".endscreen_score-game").innerHTML = "Your score is " + score + "%";
+      if (score < 50) {
+        console.log("bad")
+      }
+      else {
+        console.log("good")
+      }
+    }, 1000);
+  }
+
   function update(time) {
     if (!player.alive) {
       this.audioBackground.stop(); //When the player is not alive (because the timer stopped or you hit mute) the music stops
+      showEndScreen();
       return;
     }
     if (cursors.left.isDown) {

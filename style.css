@@ -32,6 +32,16 @@ h3 {
 .logo {
   width: 15%;
 }
+.endscreen-game {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  width: 800px;
+  height: 600px;
+  margin-left: calc(50%);
+  transform: translateX(calc(-50% - 1rem));
+  background-color: #222;
+}
 .prescreen-game {
   width: 800px;
   height: 600px;
