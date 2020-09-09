@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     countDownText = this.add.text(310, 150, + countDownFormat(this.initialCountdown), countDownStyle);
     countDownEvent = this.time.addEvent({delay: 1000, callback: countEvent, callbackScope: this, loop: true});
 
-    this.initialTime = 180; //180 = 3 minutes
+    this.initialTime = 120; //180 = 3 minutes
     timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
     timedEvent = this.time.addEvent({delay: 1000, callback: timeEvent, callbackScope: this, loop: true});
 
@@ -205,6 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
       gameScore: function() {
         score += 5;
         scoreText.text = "| Score: " + score + "%";
+        if (score === 100) {
+          player.alive = false;
+        }
       },
 
       eatFood: function(power) {
@@ -214,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // this.eatSound();
           this.gameScore();
           if (this.speed > 0 && power.total % 25 === 0) { // && power.total % 5 === 0
-            this.speed -= 10; //here we subtract right operand value from left operand value and assign the result to the left operand. 
+            this.speed -= 15; //here we subtract right operand value from left operand value and assign the result to the left operand. 
             //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
 
             //Increase the amount of enemies
