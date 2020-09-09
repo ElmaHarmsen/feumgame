@@ -32,16 +32,6 @@ h3 {
 .logo {
   width: 15%;
 }
-.endscreen-game {
-  display: none;
-  position: absolute;
-  z-index: 5;
-  width: 800px;
-  height: 600px;
-  margin-left: calc(50%);
-  transform: translateX(calc(-50% - 1rem));
-  background-color: #222;
-}
 .prescreen-game {
   width: 800px;
   height: 600px;
@@ -59,10 +49,58 @@ h3 {
   animation-duration: 1s;
   animation-iteration-count: infinite;
 }
+.endscreen-game {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  width: 800px;
+  height: 600px;
+  margin-left: calc(50%);
+  transform: translateX(calc(-50% - 1rem));
+  background-color: #222;
+}
+.endscreen_score-game {
+  color: #be03fd;
+  font-size: 150px;
+}
+.endscore-result {
+  color: #be03fd;
+  font-size: 50px;
+  margin: 1.5rem 0rem;
+}
+.light-left {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 70px 0 70px 400px;
+  border-color: transparent transparent transparent #dfff113d;
+  transform: rotate(155deg);
+  position: absolute;
+  left: -20px;
+  bottom: 20px;
+}
+.light-right {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 95px 0 95px 600px;
+  border-color: transparent transparent transparent #dfff113d;
+  transform: rotate(45deg);
+  position: absolute;
+  right: -90px;
+  bottom: 115px;
+}
 @keyframes pulsate {
   0% {background-color: #be03fd;}
   25% {background-color: #dfff11;}
   50% {background-color: #be03fd;}
   75% {background-color: #0ff0fc;}
   100% {background-color: #be03fd;}
+}
+@keyframes spotlight {
+  0% {border-color: #be03fd;}
+  25% {border-color: #dfff11;}
+  50% {border-color: #be03fd;}
+  75% {border-color: #0ff0fc;}
+  100% {border-color: #be03fd;}
 }

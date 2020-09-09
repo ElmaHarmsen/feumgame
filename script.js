@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
 
       gameScore: function() {
-        score += 2;
+        score += 5;
         scoreText.text = "| Score: " + score + "%";
       },
 
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
           power.eat();
           // this.eatSound();
           this.gameScore();
-          if (this.speed > 0 && power.total % 5 === 0) { // && power.total % 5 === 0
+          if (this.speed > 0 && power.total % 25 === 0) { // && power.total % 5 === 0
             this.speed -= 10; //here we subtract right operand value from left operand value and assign the result to the left operand. 
             //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
 
@@ -293,14 +293,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function showEndScreen() {
     setTimeout(() => {
       document.querySelector(".endscreen-game").style.display = "block";
-      document.querySelector(".endscreen_score-game").innerHTML = "Your score is " + score + "%";
-      if (score < 50) {
-        console.log("bad")
+      document.querySelector(".endscreen_score-game").innerHTML = score + "%";
+      if(score < 25) {
+        document.querySelector(".endscore-result").innerHTML = "At least you tried"
       }
-      else {
-        console.log("good")
+      else if(score > 25 && score <= 50) {
+        document.querySelector(".endscore-result").innerHTML = "You're getting there"
       }
-    }, 1000);
+      else if(score  > 50 && score < 75) {
+        document.querySelector(".endscore-result").innerHTML = "Nice one"
+      }
+      else if(score > 75) {
+        document.querySelector(".endscore-result").innerHTML = "You're doing marvelous"
+      }
+    }, 500);
   }
 
   function update(time) {
