@@ -14,8 +14,8 @@ body {
 h1, h2, h3 {
   font-size: 25px;
 }
-h1, h3 {
-  padding: 1.5rem 0rem 0rem 0rem;
+h1 {
+  padding: 0.5rem 0rem;
   color: #fff;
 }
 h2, h3 {
@@ -27,7 +27,11 @@ h2 {
 h3 {
   text-decoration: underline;
   text-transform: uppercase;
-  padding: 1.5rem 0rem 0rem 0rem;
+  padding: 2.5rem 0rem 0.5rem 0rem;
+  color: #fff;
+}
+.h1-top {
+  padding: 2.5rem 0rem 0.5rem 0rem;
 }
 .logo {
   width: 15%;
@@ -66,7 +70,6 @@ h3 {
 .endscore-result {
   color: #be03fd;
   font-size: 50px;
-  margin: 1.5rem 0rem;
 }
 .light-left {
   width: 0;
@@ -74,6 +77,9 @@ h3 {
   border-style: solid;
   border-width: 70px 0 70px 400px;
   border-color: transparent transparent transparent #dfff113d;
+  animation-name: spotlight;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
   transform: rotate(155deg);
   position: absolute;
   left: -20px;
@@ -85,6 +91,9 @@ h3 {
   border-style: solid;
   border-width: 95px 0 95px 600px;
   border-color: transparent transparent transparent #dfff113d;
+  animation-name: spotlight;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
   transform: rotate(45deg);
   position: absolute;
   right: -90px;
@@ -98,9 +107,9 @@ h3 {
   100% {background-color: #be03fd;}
 }
 @keyframes spotlight {
-  0% {border-color: #be03fd;}
-  25% {border-color: #dfff11;}
-  50% {border-color: #be03fd;}
-  75% {border-color: #0ff0fc;}
-  100% {border-color: #be03fd;}
+  0% {border-color: transparent transparent transparent #be03fd41;}
+  25% {border-color: transparent transparent transparent #dfff113d;}
+  50% {border-color: transparent transparent transparent #be03fd41;}
+  75% {border-color: transparent transparent transparent #0ff0fc36;}
+  100% {border-color: transparent transparent transparent #be03fd41;}
 }

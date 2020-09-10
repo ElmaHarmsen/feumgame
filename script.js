@@ -41,8 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     this.load.image('enemy', 'assets/enemy.svg')
     this.load.image('player', 'assets/player.svg');
     this.load.image('logo', 'assets/logo.png');
-    this.load.audio('background-music', 'assets/bass.mp3'); //OGG or MP3
+    this.load.audio('background-music', 'assets/feelgood.ogg'); //OGG or MP3
     this.load.audio('eat-sound', 'assets/p-ping.mp3');
+    this.load.audio('victory', 'assets/Victory.mp3');
   }
 
   function create() {
@@ -60,11 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
     countDownText = this.add.text(310, 150, + countDownFormat(this.initialCountdown), countDownStyle);
     countDownEvent = this.time.addEvent({delay: 1000, callback: countEvent, callbackScope: this, loop: true});
 
-    this.initialTime = 120; //180 = 3 minutes
+    this.initialTime = 90; //180 = 3 minutes
     timerText = this.add.text(210, 12.5, "Timer: " + timeFormat(this.initialTime), style);
     timedEvent = this.time.addEvent({delay: 1000, callback: timeEvent, callbackScope: this, loop: true});
-
-    // endScoreText = this.add.text(310, 150, "Your score is " + score + "%", style);
 
     var Power = new Phaser.Class({
       Extends: Phaser.GameObjects.Image,
@@ -75,8 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           this.setTexture('power');
-          var x = Phaser.Math.Between(1, 35);
-          var y = Phaser.Math.Between(1, 25);
+          var x = Phaser.Math.Between(5, 35);
+          var y = Phaser.Math.Between(5, 25);
           this.setPosition(x * 20, y * 20);
           this.setOrigin(0);
     
@@ -89,8 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
       eat: function() {
         this.total++; //+ 1 with every power eaten
 
-        var x = Phaser.Math.Between(1, 35);
-        var y = Phaser.Math.Between(1, 25);
+        var x = Phaser.Math.Between(5, 35);
+        var y = Phaser.Math.Between(5, 25);
 
         this.setPosition(x * 20, y * 20);
 
@@ -107,8 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           this.setTexture('enemy');
-          var x = Phaser.Math.Between(1, 35);
-          var y = Phaser.Math.Between(1, 25);
+          var x = Phaser.Math.Between(5, 35);
+          var y = Phaser.Math.Between(5, 25);
           this.setPosition(x * 20, y * 20); //to keep the hitting of the enemy work, don't touch this line
 
           // this.input.hitArea.setTo(50, 50, 50, 50);
@@ -131,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         this.alive = true;
 
-        this.speed = 115; //a lower number stands for faster speed
+        this.speed = 100; //a lower number stands for faster speed
 
         this.moveTime = 0;
 
@@ -214,13 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (this.head.x === power.x && this.head.y === power.y) {
           this.grow();
           power.eat();
-          // this.eatSound();
           this.gameScore();
-          if (this.speed > 0 && power.total % 25 === 0) { // && power.total % 5 === 0
-            this.speed -= 15; //here we subtract right operand value from left operand value and assign the result to the left operand. 
+          if (this.speed > 0 && power.total % 15 === 0) { // && power.total % 5 === 0
+            this.speed -= 40; //here we subtract right operand value from left operand value and assign the result to the left operand. 
             //So when speed is 100 we substract 20, and we set 80 (100-20=80) as the new speed
-
-            //Increase the amount of enemies
           }
           return true;
         }
@@ -241,21 +237,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    enemy = new Enemy(this, 8, 22);
+    enemy = new Enemy(this, 0, 0);
     // enemy.setInteractive({hitArea: new Phaser.GameObjects.Rectangle(400, 300, 50, 50, 0xff0000)});
 
-    power = new Power(this, 30, 15);
+    power = new Power(this, 0, 0);
 
     player = new Player(this, 3, 5);
 
     cursors = this.input.keyboard.createCursorKeys();
 
     this.audioBackground = this.sound.add('background-music');
+    this.audioVictory = this.sound.add('victory');
     var musicBackgroundConfig = {
       loop: true,
-      delay: 3 //seconds, the music starts when the countdown of 3 seconds ends
+      delay: 3, //seconds, the music starts when the countdown of 3 seconds ends
     }
     this.audioBackground.play(musicBackgroundConfig); 
+
+    // this.audioVictory = this.sound.add('victory');
   }
 
   function countDownFormat(seconds) {
@@ -267,7 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (this.initialCountdown != 1) { //We check if the time is not 1, if true we
       this.initialCountdown -= 1; //decrease one second
       countDownText.setText(+ countDownFormat(this.initialCountdown)); //and we set the timer text  
-      // player.alive = false; //The player can't move anymore
     }
     else {
       countDownText.setText(); //We remove the countdown
@@ -297,24 +295,26 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       document.querySelector(".endscreen-game").style.display = "block";
       document.querySelector(".endscreen_score-game").innerHTML = score + "%";
-      if(score < 25) {
-        document.querySelector(".endscore-result").innerHTML = "At least you tried"
+      if(score <= 25) {
+        document.querySelector(".endscore-result").innerHTML = "At least you tried!"
       }
       else if(score > 25 && score <= 50) {
-        document.querySelector(".endscore-result").innerHTML = "You're getting there"
+        document.querySelector(".endscore-result").innerHTML = "You're getting there!"
       }
-      else if(score  > 50 && score < 75) {
-        document.querySelector(".endscore-result").innerHTML = "Nice one"
+      else if(score  > 50 && score <= 75) {
+        document.querySelector(".endscore-result").innerHTML = "Nice one!"
       }
       else if(score > 75) {
-        document.querySelector(".endscore-result").innerHTML = "You're doing marvelous"
+        document.querySelector(".endscore-result").innerHTML = "You're doing marvelous!"
       }
     }, 500);
+    this.audioVictory.play(); //errors, does play sound
   }
 
   function update(time) {
     if (!player.alive) {
       this.audioBackground.stop(); //When the player is not alive (because the timer stopped or you hit mute) the music stops
+      this.audioVictory.play(); //No errors, doesn't play sound
       showEndScreen();
       return;
     }
