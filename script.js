@@ -311,6 +311,11 @@ document.addEventListener("DOMContentLoaded", () => {
     this.audioVictory.play(); //errors, does play sound
   }
 
+  function replayGame() {
+    window.location.reload(true);
+  }
+  document.querySelector(".endscreen_replay-game").addEventListener("click", replayGame);
+
   function update(time) {
     if (!player.alive) {
       this.audioBackground.stop(); //When the player is not alive (because the timer stopped or you hit mute) the music stops

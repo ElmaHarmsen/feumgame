@@ -8,8 +8,9 @@
 }
 body {
   text-align: center;
-  margin: 1rem;
+  margin: 2rem;
   font-family: "sourcecode";
+  background-color: #222;
 }
 h1, h2, h3 {
   font-size: 25px;
@@ -30,6 +31,13 @@ h3 {
   padding: 2.5rem 0rem 0.5rem 0rem;
   color: #fff;
 }
+canvas {
+  border: 2px solid #fff;
+
+  @media screen and(max-width: 1280px) {
+    display: none;
+  }
+}
 .h1-top {
   padding: 2.5rem 0rem 0.5rem 0rem;
 }
@@ -41,6 +49,7 @@ h3 {
   height: 600px;
   margin: 0rem auto;
   background-color: #222;
+  border: 2px solid #fff;
 }
 .prescreen_start-game {
   font-family: "sourcecode";
@@ -60,8 +69,9 @@ h3 {
   width: 800px;
   height: 600px;
   margin-left: calc(50%);
-  transform: translateX(calc(-50% - 1rem));
+  transform: translateX(calc(-50% - 2rem));
   background-color: #222;
+  border: 2px solid #fff;
 }
 .endscreen_score-game {
   color: #be03fd;
@@ -98,6 +108,16 @@ h3 {
   position: absolute;
   right: -90px;
   bottom: 115px;
+}
+.endscreen_replay-game {
+  position: absolute;
+  bottom: 0.5rem;
+  width: 100%;
+}
+.endscreen_replay-game > h1 {
+  font-family: "sourcecode-bold";
+  color: #be03fd;
+  cursor: pointer;
 }
 @keyframes pulsate {
   0% {background-color: #be03fd;}
