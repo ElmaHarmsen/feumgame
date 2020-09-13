@@ -41,9 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
     this.load.image('enemy', 'assets/enemy.svg')
     this.load.image('player', 'assets/player.svg');
     this.load.image('logo', 'assets/logo.png');
-    this.load.audio('background-music', 'assets/feelgood.ogg'); //OGG or MP3
+    this.load.audio('background-music', 'assets/game_song.mp3'); //OGG or MP3
     this.load.audio('eat-sound', 'assets/p-ping.mp3');
     this.load.audio('victory', 'assets/Victory.mp3');
+    this.load.audio('countdown', 'assets/countdown.mp3');
   }
 
   function create() {
@@ -109,8 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
           var x = Phaser.Math.Between(5, 35);
           var y = Phaser.Math.Between(5, 25);
           this.setPosition(x * 20, y * 20); //to keep the hitting of the enemy work, don't touch this line
-
-          // this.input.hitArea.setTo(50, 50, 50, 50);
 
           scene.children.add(this);
         }, 3000);
@@ -238,7 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     enemy = new Enemy(this, 0, 0);
-    // enemy.setInteractive({hitArea: new Phaser.GameObjects.Rectangle(400, 300, 50, 50, 0xff0000)});
 
     power = new Power(this, 0, 0);
 
@@ -248,13 +246,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     this.audioBackground = this.sound.add('background-music');
     this.audioVictory = this.sound.add('victory');
+    this.audioCountdown = this.sound.add('countdown');
+    this.audioCountdown.play()
     var musicBackgroundConfig = {
       loop: true,
       delay: 3, //seconds, the music starts when the countdown of 3 seconds ends
     }
     this.audioBackground.play(musicBackgroundConfig); 
-
-    // this.audioVictory = this.sound.add('victory');
   }
 
   function countDownFormat(seconds) {
