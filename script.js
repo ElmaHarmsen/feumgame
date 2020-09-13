@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   var scoreText;
   var score = 0;
   var countDownText;
-  var endScoreText = [];
   var cursors;
   var logo;
   var UP = 0;
@@ -37,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   var RIGHT = 3;
 
   function preload() {
+    this.load.image('background', 'assets/background.png');
     this.load.image('power', 'assets/power.svg');
     this.load.image('enemy', 'assets/enemy.svg')
     this.load.image('player', 'assets/player.svg');
@@ -48,11 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function create() {
+    // background = this.add.image(0, 0, 'background');
+    // background.setScale(0.5);
+
     logo = this.add.image(70, 25, 'logo');
     logo.setScale(0.2);
 
     var style = {font: "25px sourcecode", fill: "#fff"}
-    var countDownStyle = {font: "300px sourcecode", fill: "#be03fd", backgroundColor: "#222"}
+    var countDownStyle = {font: "300px sourcecode", fill: "#be03fd", backgroundColor: "transparent"}
 
     scoreText = this.add.text(390, 12.5, "| Score: " + score + "%", style); 
 
